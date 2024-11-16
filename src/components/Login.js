@@ -1,6 +1,11 @@
 import React, { useRef, useState } from "react";
 import Header from "./Header";
 import { checkValidData } from "../utils/validate";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { auth } from "../utils/firebase";
 
 const Login = () => {
   const [isSignInForm, setSignInForm] = useState(true);
@@ -20,7 +25,48 @@ const Login = () => {
       email.current?.value,
       password.current?.value
     );
-    setErrorMessage(errorMessageValue);
+
+    if (errorMessageValue) {
+      setErrorMessage(errorMessageValue);
+      return;
+    }
+    //create a new user by signup/signin
+    if (!isSignInForm) {
+      createUserWithEmailAndPassword(
+        auth,
+        email.current?.value,
+        password.current?.value
+      )
+        .then((userCredential) => {
+          // Signed up
+          console.log(userCredential);
+          const user = userCredential.user;
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setErrorMessage(errorCode + "-" + errorMessage);
+          // ..
+        });
+    } else {
+      signInWithEmailAndPassword(
+        auth,
+        email.current?.value,
+        password.current?.value
+      )
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          console.log(user);
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setErrorMessage(errorCode + "-" + errorMessage);
+        });
+    }
   };
 
   const handleSubmit = (e) => {
@@ -70,7 +116,7 @@ const Login = () => {
           >
             {isSignInForm ? "Sign In" : "Sign Up"}
           </button>
-          <p className="text-red-700 font-bold mb-2">{`* ${errorMessage}`}</p>
+          <p className="text-red-700 font-bold mb-2">{` ${errorMessage}`}</p>
           <p
             className="hover:text-red-300 active:text-blue-200 focus:text-green-500 cursor-pointer"
             onClick={toggleSignInForm}
