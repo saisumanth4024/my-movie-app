@@ -11,7 +11,7 @@ const Header = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
+    const unSubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         const { uid, email, displayName } = user;
         dispatch(addUser({ uid: uid, email: email, displayName: displayName }));
@@ -24,6 +24,8 @@ const Header = () => {
         navigate("/");
       }
     });
+    // unsubscribed to the onAuth
+    return () => unSubscribe();
   }, []);
 
   const handleSignOut = () => {
@@ -43,7 +45,7 @@ const Header = () => {
       {user && (
         <div className="flex">
           <img
-            className="w-14 h-12 mx-3 "
+            className="w-12 h-12 mx-3 "
             src="netflix-profile-pictures-1000-x-1000-2fg93funipvqfs9i.jpg"
             alt="user-profile-icon"
           />
