@@ -13,7 +13,7 @@ const Browse = () => {
   const isGpt = useSelector((store) => store.gpt.showGptSearch);
 
   return (
-    <div className="bg-black">
+    <div className="">
       <Header />
       {isGpt ? (
         <GptSearch />

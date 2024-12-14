@@ -5,10 +5,13 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser, removeUser } from "../utils/userSlice";
 import { toggleGptSearchView } from "../utils/gptSlice";
+import { SUPPORTED_LANGUAGES } from "../utils/constants";
+import { changeLanguage } from "../utils/configSlice";
 
 const Header = () => {
   const navigate = useNavigate();
   const user = useSelector((store) => store.user);
+  const config = useSelector((store) => store.config.changeLanguage);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -45,11 +48,29 @@ const Header = () => {
     dispatch(toggleGptSearchView());
   };
 
+  const handleLanguageChange = (e) => {
+    dispatch(changeLanguage(e.target.value));
+  };
+
   return (
-    <div className="flex justify-between items-center absolute w-full px-8 py-2 bg-gradient-to-b from-black">
+    <div className="flex justify-between items-center absolute w-full px-8 py-2 bg-gradient-to-b from-black z-30">
       <img className="w-32" src="Netflix_Logo_CMYK.png" alt="netflix_logo" />
       {user && (
         <div className="flex">
+          <select
+            onChange={handleLanguageChange}
+            className="bg-red-700 mr-2 font-bold px-2 text-white border-[1px] rounded-md z-40"
+          >
+            {SUPPORTED_LANGUAGES.map((lang) => (
+              <option
+                className="z-10"
+                key={lang.identifier}
+                value={lang.identifier}
+              >
+                {lang.name}
+              </option>
+            ))}
+          </select>
           <button
             className=" font-bold px-2 text-white border-[1px] rounded-md bg-red-700 border-solid"
             onClick={handleGptSearchClick}

@@ -9,7 +9,7 @@ const MainContainer = () => {
 
   const mainMovies = movies[Math.floor(Math.random() * movies.length)];
 
-  console.log(mainMovies);
+  // console.log(mainMovies);
 
   const { original_title, overview, id } = mainMovies;
 

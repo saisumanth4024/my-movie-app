@@ -10,6 +10,7 @@ import { auth } from "../utils/firebase";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
+import { NETFLIX_BACKGROUND_URL } from "../utils/constants";
 
 const Login = () => {
   const [isSignInForm, setSignInForm] = useState(true);
@@ -25,7 +26,7 @@ const Login = () => {
   };
 
   const handleButtonClick = (e) => {
-    console.log(email);
+    // console.log(email);
     const errorMessageValue = checkValidData(
       userName.current?.value,
       email.current?.value,
@@ -46,7 +47,7 @@ const Login = () => {
         .then((userCredential) => {
           // Signed up
 
-          console.log(userCredential);
+          // console.log(userCredential);
           const user = userCredential.user;
           updateProfile(user, {
             displayName: userName.current.value,
@@ -97,7 +98,7 @@ const Login = () => {
       <div>
         <img
           className=""
-          src="https://assets.nflxext.com/ffe/siteui/vlv3/03ad76d1-e184-4d99-ae7d-708672fa1ac2/web/IN-en-20241111-TRIFECTA-perspective_149877ab-fcbd-4e4f-a885-8d6174a1ee81_large.jpg"
+          src={NETFLIX_BACKGROUND_URL}
           // src="/Netflix_Logo_CMYK.png"
           alt="netflix_background"
         />
