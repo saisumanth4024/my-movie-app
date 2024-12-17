@@ -2,7 +2,7 @@ import React from "react";
 import MovieCard from "./MovieCard";
 
 const MovieList = ({ title, movies, backgroundColor }) => {
-  console.log(movies);
+  // console.log(movies);
   return (
     <div className={`my-2 bg-${backgroundColor}`}>
       <h1 className="text-2xl text-white font-bold">{title}</h1>
