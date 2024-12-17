@@ -12,6 +12,7 @@ const Header = () => {
   const navigate = useNavigate();
   const user = useSelector((store) => store.user);
   const config = useSelector((store) => store.config.changeLanguage);
+  const showGptSearch = useSelector((store) => store.gpt.showGptSearch);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -57,25 +58,32 @@ const Header = () => {
       <img className="w-32" src="Netflix_Logo_CMYK.png" alt="netflix_logo" />
       {user && (
         <div className="flex">
-          <select
-            onChange={handleLanguageChange}
-            className="bg-red-700 mr-2 font-bold px-2 text-white border-[1px] rounded-md z-40"
-          >
-            {SUPPORTED_LANGUAGES.map((lang) => (
-              <option
-                className="z-10"
-                key={lang.identifier}
-                value={lang.identifier}
+          {showGptSearch ? (
+            <>
+              <select
+                onChange={handleLanguageChange}
+                className="bg-red-700 mr-2 font-bold px-2 text-white border-[1px] rounded-md z-40"
               >
-                {lang.name}
-              </option>
-            ))}
-          </select>
+                {SUPPORTED_LANGUAGES.map((lang) => (
+                  <option
+                    className="z-10"
+                    key={lang.identifier}
+                    value={lang.identifier}
+                  >
+                    {lang.name}
+                  </option>
+                ))}
+              </select>
+            </>
+          ) : (
+            ""
+          )}
+
           <button
             className=" font-bold px-2 text-white border-[1px] rounded-md bg-red-700 border-solid"
             onClick={handleGptSearchClick}
           >
-            GPT Search
+            {showGptSearch ? "Home" : "GPT Search"}
           </button>
           <img
             className="w-12 h-12 mx-3 "
